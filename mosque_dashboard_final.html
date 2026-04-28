@@ -1,0 +1,468 @@
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.7/build/pannellum.css"/>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;700;800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f0f4f7;--surf:#fff;--bdr:#d0dde6;--bdr2:#b8ccd8;
+  --acc:#237292;--acc2:#1a5570;--acc-light:#e8f4f9;
+  --gold:#b8860b;--txt:#1a2e3a;--txt2:#2c4a5a;--mut:#6a8a9a;
+  --green:#1e7e34;--green-light:#e8f5ec;
+  --yellow:#856404;--yellow-light:#fff8e1;
+  --red:#b02020;--red-light:#fdecea;
+  --blue:#1565a0;--blue-light:#e3f0fb;
+}
+body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--txt);direction:rtl;min-height:600px;overflow-x:hidden;font-size:14px}
+.scr{display:none}.scr.on{display:flex;flex-direction:column}
+
+/* HEADER */
+.hdr{background:var(--acc);padding:10px 18px;display:flex;align-items:center;gap:12px;flex-shrink:0;box-shadow:0 2px 8px rgba(35,114,146,.3)}
+.logo{width:36px;height:36px;background:rgba(255,255,255,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#fff;flex-shrink:0;border:1.5px solid rgba(255,255,255,.3)}
+.htx{font-size:15px;font-weight:800;color:#fff}
+.hsx{font-size:11px;color:rgba(255,255,255,.8)}
+.hdate{margin-right:auto;font-size:12px;color:#fff;background:rgba(255,255,255,.18);padding:4px 12px;border-radius:20px;font-weight:600}
+
+/* TABS */
+.tabs{display:flex;background:var(--surf);border-bottom:2px solid var(--bdr);flex-shrink:0;padding:0 18px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.tab{padding:12px 20px;font-size:14px;font-family:'Tajawal',sans-serif;font-weight:700;background:none;border:none;border-bottom:3px solid transparent;color:var(--txt);cursor:pointer;transition:all .2s;margin-bottom:-2px;white-space:nowrap}
+.tab.act{color:var(--acc);border-bottom-color:var(--acc);font-weight:800}
+.tab:hover:not(.act){color:var(--acc);background:var(--acc-light)}
+
+/* KPI */
+.kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;padding:14px 18px;flex-shrink:0}
+.kpi{background:var(--surf);border:1.5px solid var(--bdr);border-radius:12px;padding:14px 16px;position:relative;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+.kpi-bar{position:absolute;top:0;right:0;width:4px;height:100%;border-radius:0 12px 12px 0}
+.kpi-lbl{font-size:12px;color:var(--mut);margin-bottom:6px;font-weight:600}
+.kpi-val{font-size:28px;font-weight:800;line-height:1;margin-bottom:4px}
+.kpi-sub{font-size:11px;color:var(--mut)}
+.kpi-ico{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:26px;opacity:.1}
+
+/* MID */
+.mid-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 18px 10px;flex-shrink:0}
+.mid-card{background:var(--surf);border:1.5px solid var(--bdr);border-radius:12px;padding:14px 16px;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+.mid-title{font-size:14px;font-weight:700;margin-bottom:10px;color:var(--txt2);display:flex;align-items:center;gap:6px}
+.mid-title::before{content:'';width:4px;height:16px;background:var(--acc);border-radius:2px}
+.prog-row{margin-bottom:8px}
+.prog-label{display:flex;justify-content:space-between;font-size:13px;margin-bottom:3px;color:var(--txt2)}
+.prog-bar{background:var(--bg);border-radius:4px;height:7px;border:1px solid var(--bdr)}
+.prog-fill{height:100%;border-radius:4px}
+.visit-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid var(--bdr)}
+.vdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.vname{font-size:13px;font-weight:600;color:var(--txt)}
+.vmosque{font-size:11px;color:var(--mut)}
+.vtime{font-size:11px;color:var(--mut);white-space:nowrap;margin-right:auto}
+
+/* MAIN */
+.main-content{display:grid;grid-template-columns:1fr 290px;flex:1;overflow:hidden}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;padding:12px 18px;overflow-y:auto;align-content:start}
+.mc{background:var(--surf);border:1.5px solid var(--bdr);border-radius:12px;padding:14px;cursor:pointer;transition:all .2s;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+.mc:hover{border-color:var(--acc);box-shadow:0 4px 12px rgba(35,114,146,.15);transform:translateY(-2px)}
+.mi{width:42px;height:42px;background:var(--acc-light);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:10px;border:1.5px solid var(--bdr)}
+.mco{font-size:11px;color:var(--acc);font-weight:700;margin-bottom:2px}
+.mn{font-size:13px;font-weight:700;line-height:1.4;margin-bottom:4px}
+.ml{font-size:12px;color:var(--mut);margin-bottom:8px}
+.bdg{display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700}
+.by{background:var(--yellow-light);color:var(--yellow)}
+.bg{background:var(--green-light);color:var(--green)}
+.br{background:var(--red-light);color:var(--red)}
+.bb{background:var(--blue-light);color:var(--blue)}
+
+/* TASKS PANEL */
+.tasks-panel{background:var(--surf);border-right:1.5px solid var(--bdr);display:flex;flex-direction:column;overflow:hidden}
+.tasks-hdr{padding:12px 14px;border-bottom:1.5px solid var(--bdr);flex-shrink:0;display:flex;align-items:center;justify-content:space-between;background:var(--acc-light)}
+.tasks-title{font-size:14px;font-weight:800;color:var(--acc2)}
+
+/* ✅ زر إضافة مهمة */
+.btn-add{background:var(--acc);border:none;color:#fff;padding:7px 14px;border-radius:7px;font-family:'Tajawal',sans-serif;font-size:13px;cursor:pointer;font-weight:700;white-space:nowrap}
+.btn-add:hover{background:var(--acc2)}
+
+.tasks-filter{display:flex;gap:6px;padding:8px 12px;border-bottom:1.5px solid var(--bdr);flex-shrink:0;flex-wrap:wrap}
+
+/* ✅ أزرار الفلتر: خلفية بيضاء + حد ملون + نص ملون = مقروء دائماً */
+.tf{
+  background:#fff;
+  border:2px solid var(--acc);
+  color:var(--acc);
+  padding:6px 14px;
+  border-radius:25px;
+  font-family:'Tajawal',sans-serif;
+  font-size:13px;
+  cursor:pointer;
+  transition:all .15s;
+  font-weight:700;
+  white-space:nowrap;
+  line-height:1.5;
+}
+.tf.act{background:var(--acc);color:#fff}
+.tf:hover:not(.act){background:var(--acc-light)}
+
+.tasks-list{overflow-y:auto;flex:1;padding:8px 12px}
+.task-item{background:var(--bg);border:1.5px solid var(--bdr);border-radius:8px;padding:10px 12px;margin-bottom:8px;transition:all .15s}
+.task-item:hover{border-color:var(--acc);background:#fff}
+.task-top{display:flex;align-items:flex-start;gap:8px;margin-bottom:5px}
+.tchk{width:18px;height:18px;border:2px solid var(--bdr2);border-radius:5px;flex-shrink:0;margin-top:1px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;transition:all .15s}
+.task-text{font-size:13px;line-height:1.5;flex:1;color:var(--txt);font-weight:500}
+.task-meta{display:flex;align-items:center;gap:8px;margin-right:26px;margin-top:2px}
+.tmosque{font-size:11px;color:var(--acc);font-weight:700}
+.tdate{font-size:11px;color:var(--mut)}
+
+/* FLOOR */
+.lay{display:grid;grid-template-columns:1fr 300px;flex:1;overflow:hidden}
+.mapa{position:relative;overflow:hidden;background:#e8eff4}
+.side{background:var(--surf);border-right:1.5px solid var(--bdr);display:flex;flex-direction:column;overflow:hidden}
+.emp{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:10px;color:var(--mut);padding:20px;text-align:center}
+.pvwrap{width:100%;height:200px;position:relative;flex-shrink:0;background:#1a2e3a}
+#pv{width:100%;height:100%}
+.slbl{position:absolute;top:6px;right:6px;background:rgba(35,114,146,.9);color:#fff;font-size:11px;padding:4px 10px;border-radius:5px;font-family:'Tajawal',sans-serif;z-index:10;pointer-events:none;font-weight:700}
+.ld{position:absolute;inset:0;background:#1a2e3a;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;z-index:5}
+.sp{width:24px;height:24px;border:3px solid rgba(255,255,255,.2);border-top-color:var(--acc);border-radius:50%;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* ✅ أزرار التنقل بنفس النهج */
+.nvr{display:flex;gap:6px;padding:8px 12px;border-bottom:1.5px solid var(--bdr);flex-shrink:0;flex-wrap:wrap;align-items:center;min-height:44px;background:var(--acc-light)}
+.nvl{font-size:13px;color:var(--acc2);font-weight:700;white-space:nowrap}
+.nb{background:#fff;border:2px solid var(--acc);color:var(--acc);padding:6px 12px;border-radius:7px;font-family:'Tajawal',sans-serif;font-size:12px;cursor:pointer;transition:all .15s;white-space:nowrap;font-weight:700;line-height:1.4}
+.nb:hover{background:var(--acc);color:#fff}
+
+.ain{padding:10px 14px;border-bottom:1.5px solid var(--bdr);flex-shrink:0}
+.an{font-size:15px;font-weight:800;margin-bottom:4px}
+.am{font-size:12px;color:var(--mut);display:flex;gap:10px}
+.uls{overflow-y:auto;flex:1;padding:8px 12px}
+.utl{font-size:13px;color:var(--txt2);margin-bottom:7px;display:flex;justify-content:space-between;align-items:center;font-weight:700}
+.uc{background:var(--bg);border:1.5px solid var(--bdr);border-radius:8px;padding:10px;margin-bottom:8px}
+.uh{display:flex;justify-content:space-between;margin-bottom:4px}
+.ue{font-size:13px;font-weight:700}.ud{font-size:11px;color:var(--mut)}
+.un{font-size:12px;color:var(--txt2);line-height:1.5}
+.ubw{margin-top:6px;background:#dde8ee;border-radius:4px;height:6px}
+.up{font-size:11px;color:var(--mut);margin-top:3px;display:flex;justify-content:space-between}
+.bc{margin-right:auto;font-size:12px;color:rgba(255,255,255,.85);display:flex;align-items:center;gap:5px}
+.bcl{color:#fff;cursor:pointer;font-weight:700}.bcl:hover{text-decoration:underline}
+@keyframes rng{0%,100%{opacity:.7}50%{opacity:.2}}
+.rng{animation:rng 2s infinite}
+</style>
+
+<!-- DASHBOARD -->
+<div id="sd" class="scr on">
+  <div class="hdr">
+    <div class="logo">و</div>
+    <div><div class="htx">منصة إدارة مشاريع الوقف</div><div class="hsx">لوحة المتابعة الميدانية — ١٤٤٦هـ</div></div>
+    <div class="hdate">📅 ٢٨ أبريل ٢٠٢٥</div>
+  </div>
+  <div class="tabs">
+    <button class="tab act" id="tab-dash" onclick="showTab('dash')">🏠 لوحة التحكم</button>
+    <button class="tab" id="tab-list" onclick="showTab('list')">🕌 المساجد</button>
+    <button class="tab" id="tab-tasks" onclick="showTab('tasks-only')">✅ المهام</button>
+  </div>
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-bar" style="background:var(--acc)"></div><div class="kpi-ico">🕌</div><div class="kpi-lbl">إجمالي المساجد</div><div class="kpi-val" style="color:var(--acc)">٣٠</div><div class="kpi-sub">مسجد نشط</div></div>
+    <div class="kpi"><div class="kpi-bar" style="background:var(--yellow)"></div><div class="kpi-ico">🔨</div><div class="kpi-lbl">تحت التنفيذ</div><div class="kpi-val" style="color:var(--yellow)">١٢</div><div class="kpi-sub">مشروع ترميم جارٍ</div></div>
+    <div class="kpi"><div class="kpi-bar" style="background:var(--green)"></div><div class="kpi-ico">✅</div><div class="kpi-lbl">مكتملة</div><div class="kpi-val" style="color:var(--green)">١٥</div><div class="kpi-sub">سُلّمت هذا العام</div></div>
+    <div class="kpi"><div class="kpi-bar" style="background:var(--red)"></div><div class="kpi-ico">⚠</div><div class="kpi-lbl">بلاغات مفتوحة</div><div class="kpi-val" style="color:var(--red)">٢٤</div><div class="kpi-sub">٨ منها طارئة</div></div>
+    <div class="kpi"><div class="kpi-bar" style="background:var(--gold)"></div><div class="kpi-ico">📊</div><div class="kpi-lbl">نسبة الإنجاز</div><div class="kpi-val" style="color:var(--gold)">٧٣٪</div><div class="kpi-sub">+٥٪ عن الشهر</div></div>
+  </div>
+  <div class="mid-row">
+    <div class="mid-card">
+      <div class="mid-title">تقدم المشاريع حسب المنطقة</div>
+      <div id="prog-bars"></div>
+    </div>
+    <div class="mid-card">
+      <div class="mid-title">آخر الزيارات الميدانية</div>
+      <div id="visits-list"></div>
+    </div>
+  </div>
+  <div class="main-content" style="flex:1;overflow:hidden">
+    <div class="mgrid" id="mg"></div>
+    <div class="tasks-panel" id="tasks-panel">
+      <div class="tasks-hdr">
+        <span class="tasks-title">📋 قائمة المهام</span>
+        <button class="btn-add" onclick="addTask()">＋ مهمة جديدة</button>
+      </div>
+      <div class="tasks-filter">
+        <button class="tf act" onclick="filterTasks('all',this)">الكل</button>
+        <button class="tf" onclick="filterTasks('pending',this)">قيد التنفيذ</button>
+        <button class="tf" onclick="filterTasks('done',this)">مكتملة</button>
+        <button class="tf" onclick="filterTasks('urgent',this)">🔴 طارئة</button>
+      </div>
+      <div class="tasks-list" id="tasks-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- FLOOR PLAN -->
+<div id="sf" class="scr">
+  <div class="hdr">
+    <div class="logo">و</div>
+    <div><div class="htx" id="mt"></div><div class="hsx">مخطط معماري تفاعلي · جولة 360°</div></div>
+    <div class="bc">
+      <span class="bcl" onclick="goD()">لوحة التحكم</span>
+      <span>›</span><span id="bc1" style="color:rgba(255,255,255,.9)"></span>
+      <span id="bc2" style="color:rgba(255,255,255,.75)"></span>
+    </div>
+  </div>
+  <div class="lay" style="flex:1">
+    <div class="mapa"><svg id="fs" viewBox="0 0 640 530" style="width:100%;height:100%" xmlns="http://www.w3.org/2000/svg"></svg></div>
+    <div class="side">
+      <div class="emp" id="pe">
+        <div style="font-size:44px;opacity:.2">🕌</div>
+        <div style="font-size:14px;font-weight:700;color:var(--txt2)">اختر منطقة من المخطط</div>
+        <div style="font-size:12px;color:var(--mut)">اضغط على نقطة لبدء الجولة 360°</div>
+      </div>
+      <div id="pc" style="display:none;flex-direction:column;height:100%">
+        <div class="pvwrap">
+          <div class="ld" id="pld"><div class="sp"></div><div style="font-size:12px;color:rgba(255,255,255,.7)">جاري تحميل الجولة...</div></div>
+          <div id="pv"></div>
+          <div class="slbl" id="sl2"></div>
+        </div>
+        <div class="nvr" id="nvr"><span class="nvl">انتقل إلى:</span></div>
+        <div class="ain" id="ai"></div>
+        <div class="uls" id="ul"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/pannellum@2.5.7/build/pannellum.js"></script>
+<script>
+var C={green:'#1e7e34',yellow:'#856404',red:'#b02020',blue:'#1565a0'};
+var CBG={green:'#e8f5ec',yellow:'#fff8e1',red:'#fdecea',blue:'#e3f0fb'};
+var CL={green:'مكتمل',yellow:'جاري',red:'متوقف',blue:'مراجعة'};
+var BC={green:'bg',yellow:'by',red:'br',blue:'bb'};
+var PANOS={prayer:'https://pannellum.org/images/alma.jpg',entrance:'https://pannellum.org/images/cerro-toco-0.jpg',mihrab:'https://pannellum.org/images/alma.jpg',ablution:'https://pannellum.org/images/cerro-toco-0.jpg',library:'https://pannellum.org/images/alma.jpg',court:'https://pannellum.org/images/cerro-toco-0.jpg',minaret1:'https://pannellum.org/images/alma.jpg',minaret2:'https://pannellum.org/images/cerro-toco-0.jpg'};
+
+var AREAS=[
+  {id:'prayer',lbl:'قاعة الصلاة الرئيسية',x:320,y:230,st:'yellow',adj:['mihrab','entrance','library','court'],v:[{e:'م. خالد العتيبي',d:'١٤ أبريل',n:'فحص السقف — تشقق بسيط يحتاج معالجة',p:65},{e:'م. سامي الغامدي',d:'٢ أبريل',n:'السجاد اكتمل ٨٠٪',p:80}]},
+  {id:'mihrab',lbl:'المحراب والمنبر',x:320,y:80,st:'yellow',adj:['prayer'],v:[{e:'م. سامي الغامدي',d:'١٠ أبريل',n:'أعمال الزخرفة جارية',p:55}]},
+  {id:'entrance',lbl:'المدخل الرئيسي',x:320,y:430,st:'green',adj:['prayer','court','ablution'],v:[{e:'م. خالد العتيبي',d:'١٤ أبريل',n:'اكتملت أعمال الرخام',p:100}]},
+  {id:'court',lbl:'الصحن الخارجي',x:320,y:490,st:'green',adj:['entrance','minaret1','minaret2'],v:[{e:'م. فهد الزهراني',d:'١١ أبريل',n:'أعمال البلاط اكتملت',p:100}]},
+  {id:'library',lbl:'المكتبة والقاعة',x:145,y:230,st:'blue',adj:['prayer','ablution'],v:[{e:'م. عمر الشمري',d:'٨ أبريل',n:'تركيب الرفوف والإضاءة',p:70}]},
+  {id:'ablution',lbl:'دورات المياه والوضوء',x:495,y:340,st:'red',adj:['entrance','prayer'],v:[{e:'م. فهد الزهراني',d:'١٢ أبريل',n:'عطل في الصرف — بلاغ طارئ',p:20},{e:'م. خالد العتيبي',d:'٥ أبريل',n:'المشكلة في الأنابيب الرئيسية',p:15}]},
+  {id:'minaret1',lbl:'المئذنة الشمالية',x:155,y:75,st:'green',adj:['court','prayer'],v:[{e:'م. عمر الشمري',d:'٨ أبريل',n:'اكتملت أعمال الطلاء',p:100}]},
+  {id:'minaret2',lbl:'المئذنة الجنوبية',x:485,y:75,st:'green',adj:['court','prayer'],v:[{e:'م. عمر الشمري',d:'٨ أبريل',n:'اكتملت أعمال الطلاء',p:100}]},
+];
+
+var MOSQUES=[
+  {id:'m1',code:'RUH-01',name:'جامع قاطع بن شريم (المؤنسية)',city:'الرياض',st:'yellow'},
+  {id:'m2',code:'RUH-02',name:'مسجد الملك عبد الله (الصفوة)',city:'الرياض',st:'green'},
+  {id:'m3',code:'RUH-03',name:'جامع الملك عبد العزيز (الروضة)',city:'الرياض',st:'green'},
+  {id:'m4',code:'RUH-04',name:'مسجد الملك عبد الله (التوحيد)',city:'الرياض',st:'red'},
+  {id:'m5',code:'RUH-05',name:'جامع الأميرة فهدة (النسيم)',city:'الرياض',st:'yellow'},
+  {id:'m6',code:'RUH-06',name:'جامع الملك عبد الله (الدار البيضاء)',city:'الرياض',st:'blue'},
+];
+
+var TASKS=[
+  {id:1,text:'مراجعة مخططات ترميم قاعة الصلاة',mosque:'RUH-01',due:'٣٠ أبريل',pri:'red',done:false,urgent:true},
+  {id:2,text:'متابعة إصلاح شبكة الصرف الصحي',mosque:'RUH-04',due:'٢٨ أبريل',pri:'red',done:false,urgent:true},
+  {id:3,text:'رفع تقرير الجودة الشهري',mosque:'الكل',due:'١ مايو',pri:'yellow',done:false,urgent:false},
+  {id:4,text:'جدولة زيارة ميدانية للمئذنة',mosque:'RUH-02',due:'٢ مايو',pri:'blue',done:false,urgent:false},
+  {id:5,text:'مراجعة عروض المقاولين الجديدة',mosque:'الكل',due:'٥ مايو',pri:'yellow',done:false,urgent:false},
+  {id:6,text:'استلام مواد البناء — دفعة مارس',mosque:'RUH-03',due:'٢٥ أبريل',pri:'green',done:true,urgent:false},
+  {id:7,text:'تحديث مستندات المشروع في النظام',mosque:'RUH-05',due:'٢٠ أبريل',pri:'green',done:true,urgent:false},
+  {id:8,text:'التحقق من تركيب الإضاءة في المكتبة',mosque:'RUH-01',due:'٤ مايو',pri:'blue',done:false,urgent:false},
+];
+
+var PRI_C={red:'#b02020',yellow:'#856404',blue:'#1565a0',green:'#1e7e34'};
+var taskFilter='all';
+var pv2=null;
+
+var progData=[['الرياض','٨٥٪',85,'#1e7e34'],['مكة المكرمة','٦٧٪',67,'#856404'],['المدينة المنورة','٧٢٪',72,'#237292'],['جدة','٤٥٪',45,'#b02020']];
+var pbEl=document.getElementById('prog-bars');
+progData.forEach(function(row){
+  var d=document.createElement('div');d.className='prog-row';
+  var lbl=document.createElement('div');lbl.className='prog-label';
+  lbl.innerHTML='<span>'+row[0]+'</span><span style="color:'+row[3]+';font-weight:700">'+row[1]+'</span>';
+  var bar=document.createElement('div');bar.className='prog-bar';
+  var fill=document.createElement('div');fill.className='prog-fill';
+  fill.style.width=row[2]+'%';fill.style.background=row[3];
+  bar.appendChild(fill);d.appendChild(lbl);d.appendChild(bar);pbEl.appendChild(d);
+});
+
+var visitsData=[
+  {e:'م. خالد العتيبي',m:'جامع المؤنسية',t:'منذ ساعتين',c:'#1e7e34'},
+  {e:'م. سامي الغامدي',m:'مسجد الصفوة',t:'منذ ٤ ساعات',c:'#1e7e34'},
+  {e:'م. فهد الزهراني',m:'مسجد التوحيد',t:'البارحة',c:'#856404'},
+  {e:'م. عمر الشمري',m:'جامع الروضة',t:'البارحة',c:'#856404'}
+];
+var vlEl=document.getElementById('visits-list');
+visitsData.forEach(function(v){
+  var d=document.createElement('div');d.className='visit-row';
+  d.innerHTML='<div class="vdot" style="background:'+v.c+'"></div><div style="flex:1;min-width:0"><div class="vname">'+v.e+'</div><div class="vmosque">'+v.m+'</div></div><div class="vtime">'+v.t+'</div>';
+  vlEl.appendChild(d);
+});
+
+var mgEl=document.getElementById('mg');
+MOSQUES.forEach(function(m){
+  var d=document.createElement('div');d.className='mc';
+  d.onclick=function(){openM(m);};
+  d.innerHTML='<div class="mi">🕌</div><div class="mco">'+m.code+'</div><div class="mn">'+m.name+'</div><div class="ml">📍 '+m.city+'</div><span class="bdg '+BC[m.st]+'">'+CL[m.st]+'</span>';
+  mgEl.appendChild(d);
+});
+
+function renderTasks(){
+  var tl=document.getElementById('tasks-list');
+  var filtered=TASKS.slice();
+  if(taskFilter==='pending') filtered=TASKS.filter(function(t){return !t.done;});
+  if(taskFilter==='done') filtered=TASKS.filter(function(t){return t.done;});
+  if(taskFilter==='urgent') filtered=TASKS.filter(function(t){return t.urgent&&!t.done;});
+  tl.innerHTML='';
+  if(!filtered.length){tl.innerHTML='<div style="text-align:center;padding:24px;font-size:13px;color:var(--mut)">لا توجد مهام</div>';return;}
+  filtered.forEach(function(t){
+    var d=document.createElement('div');d.className='task-item';
+    d.style.borderRight='4px solid '+PRI_C[t.pri];
+    var urgIcon=t.urgent&&!t.done?'🔴 ':'';
+    var doneStyle=t.done?'text-decoration:line-through;color:var(--mut)':'';
+    var chkBg=t.done?'background:'+PRI_C[t.pri]+';border-color:'+PRI_C[t.pri]:'';
+    d.innerHTML='<div class="task-top"><div class="tchk" style="'+chkBg+'" onclick="toggleTask('+t.id+')">'+(t.done?'✓':'')+'</div><div class="task-text" style="'+doneStyle+'">'+urgIcon+t.text+'</div></div><div class="task-meta"><span class="tmosque">'+t.mosque+'</span><span class="tdate">📅 '+t.due+'</span></div>';
+    tl.appendChild(d);
+  });
+}
+
+function toggleTask(id){var t=TASKS.find(function(x){return x.id===id;});if(t){t.done=!t.done;renderTasks();}}
+function filterTasks(f,btn){taskFilter=f;document.querySelectorAll('.tf').forEach(function(b){b.classList.remove('act');});btn.classList.add('act');renderTasks();}
+function addTask(){var txt=prompt('أدخل نص المهمة:');if(txt&&txt.trim()){TASKS.unshift({id:Date.now(),text:txt.trim(),mosque:'الكل',due:'قريباً',pri:'blue',done:false,urgent:false});renderTasks();}}
+
+function showTab(t){
+  document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('act');});
+  var tid=t==='tasks-only'?'tab-tasks':t==='list'?'tab-list':'tab-dash';
+  document.getElementById(tid).classList.add('act');
+  var mg=document.getElementById('mg');var tp=document.getElementById('tasks-panel');
+  if(t==='dash'){mg.style.display='';tp.style.display='';mg.style.gridColumn='';}
+  else if(t==='list'){mg.style.display='';tp.style.display='none';mg.style.gridColumn='1/-1';}
+  else{mg.style.display='none';tp.style.display='flex';tp.style.flex='1';}
+}
+
+function goD(){document.getElementById('sd').className='scr on';document.getElementById('sf').className='scr';if(pv2){try{pv2.destroy();}catch(e){}pv2=null;}}
+
+function openM(m){
+  document.getElementById('mt').textContent=m.name;
+  document.getElementById('bc1').textContent=m.code;
+  document.getElementById('bc2').textContent='';
+  document.getElementById('sd').className='scr';
+  document.getElementById('sf').className='scr on';
+  document.getElementById('pe').style.display='flex';
+  document.getElementById('pc').style.display='none';
+  drawMap();
+}
+
+function drawMap(){
+  var svg=document.getElementById('fs');svg.innerHTML='';
+  var ns='http://www.w3.org/2000/svg';
+  function e(t,a,p){var el=document.createElementNS(ns,t);Object.keys(a).forEach(function(k){el.setAttribute(k,a[k]);});p.appendChild(el);return el;}
+  function tx(x,y,txt,sz,fill,p,bold){var t=e('text',{x:x,y:y,'text-anchor':'middle','font-size':sz,fill:fill,'font-family':'Tajawal,sans-serif','font-weight':bold?'700':'400'},p);t.textContent=txt;return t;}
+  e('rect',{x:0,y:0,width:640,height:530,fill:'#dce8f0'},svg);
+  for(var i=0;i<640;i+=40)e('line',{x1:i,y1:0,x2:i,y2:530,stroke:'#c5d8e4','stroke-width':.8},svg);
+  for(var j=0;j<530;j+=40)e('line',{x1:0,y1:j,x2:640,y2:j,stroke:'#c5d8e4','stroke-width':.8},svg);
+  e('rect',{x:60,y:45,width:520,height:440,rx:6,fill:'#f5f9fc',stroke:'#237292','stroke-width':2},svg);
+  e('rect',{x:130,y:100,width:380,height:270,rx:3,fill:'#eef5f9',stroke:'#3a8aaa','stroke-width':1.5},svg);
+  for(var r=0;r<6;r++)e('rect',{x:135,y:108+r*40,width:370,height:32,rx:2,fill:r%2===0?'#e8f2f7':'#ddeaf2',stroke:'#bdd5e0','stroke-width':.5},svg);
+  var mh=e('g',{},svg);
+  e('rect',{x:270,y:55,width:100,height:45,rx:4,fill:'#d5eaf5',stroke:'#237292','stroke-width':2},mh);
+  e('ellipse',{cx:320,cy:78,rx:30,ry:22,fill:'#c5e0ef',stroke:'#3a8aaa','stroke-width':1.5},mh);
+  e('path',{d:'M 290 100 Q 320 58 350 100',fill:'none',stroke:'#237292','stroke-width':2},mh);
+  tx(320,82,'المحراب',9,'#1a5570',mh,true);
+  [130,490].forEach(function(cx,i){
+    var g=e('g',{},svg);
+    e('rect',{x:cx-22,y:45,width:44,height:44,rx:3,fill:'#d5eaf5',stroke:'#237292','stroke-width':1.5},g);
+    e('rect',{x:cx-12,y:50,width:24,height:34,rx:2,fill:'#c5dff0',stroke:'#3a8aaa','stroke-width':1},g);
+    e('ellipse',{cx:cx,cy:50,rx:14,ry:8,fill:'#b5d5e8',stroke:'#237292','stroke-width':1.5},g);
+    e('line',{x1:cx,y1:42,x2:cx,y2:28,stroke:'#237292','stroke-width':2},g);
+    e('circle',{cx:cx,cy:26,r:5,fill:'#237292'},g);
+    tx(cx,108,i===0?'م. شمالية':'م. جنوبية',8,'#1a5570',g,true);
+  });
+  var lb=e('g',{},svg);
+  e('rect',{x:62,y:145,width:68,height:160,rx:3,fill:'#e8f4fb',stroke:'#3a8aaa','stroke-width':1.5},lb);
+  for(var r2=0;r2<4;r2++)e('rect',{x:67,y:152+r2*36,width:58,height:28,rx:2,fill:'#dceef7',stroke:'#bdd5e0','stroke-width':.5},lb);
+  tx(96,322,'المكتبة',9,'#1a5570',lb,true);
+  var wc=e('g',{},svg);
+  e('rect',{x:510,y:250,width:70,height:120,rx:3,fill:'#f0f7fa',stroke:'#9ab8c8','stroke-width':1.5},wc);
+  for(var r3=0;r3<3;r3++)e('rect',{x:515,y:255+r3*36,width:60,height:28,rx:2,fill:'#e4f0f5',stroke:'#bdd5e0','stroke-width':.5},wc);
+  tx(545,382,'دورات المياه',8,'#4a7a8a',wc,true);
+  var ct=e('g',{},svg);
+  e('rect',{x:130,y:375,width:380,height:105,rx:3,fill:'#eaf4f9',stroke:'#3a8aaa','stroke-width':1.5},ct);
+  for(var c=0;c<8;c++)for(var rr=0;rr<2;rr++)e('rect',{x:135+c*47,y:380+rr*47,width:43,height:43,rx:2,fill:((c+rr)%2===0)?'#ddeaf2':'#cfe2ec',stroke:'#bdd5e0','stroke-width':.5},ct);
+  e('circle',{cx:320,cy:427,r:20,fill:'#c5e0ef',stroke:'#237292','stroke-width':2},ct);
+  e('circle',{cx:320,cy:427,r:10,fill:'#a8d0e6',stroke:'#3a8aaa','stroke-width':1.5},ct);
+  tx(320,460,'الصحن الخارجي',9,'#1a5570',ct,true);
+  var en=e('g',{},svg);
+  e('rect',{x:260,y:480,width:120,height:42,rx:4,fill:'#d5eaf5',stroke:'#237292','stroke-width':2},en);
+  e('rect',{x:285,y:485,width:32,height:37,rx:2,fill:'#c5dff0',stroke:'#3a8aaa','stroke-width':1},en);
+  e('rect',{x:323,y:485,width:32,height:37,rx:2,fill:'#c5dff0',stroke:'#3a8aaa','stroke-width':1},en);
+  e('path',{d:'M 260 480 Q 320 466 380 480',fill:'none',stroke:'#237292','stroke-width':2},en);
+  tx(320,501,'المدخل الرئيسي',8,'#1a5570',en,true);
+  tx(320,218,'قاعة الصلاة الرئيسية',12,'#1a5570',svg,true);
+  var conns=[['prayer','mihrab'],['prayer','entrance'],['prayer','library'],['prayer','court'],['prayer','ablution'],['entrance','court'],['court','minaret1'],['court','minaret2']];
+  conns.forEach(function(conn){
+    var A=AREAS.find(function(x){return x.id===conn[0];});
+    var B=AREAS.find(function(x){return x.id===conn[1];});
+    e('line',{x1:A.x,y1:A.y,x2:B.x,y2:B.y,stroke:'#237292','stroke-width':1,'stroke-dasharray':'6 4',opacity:.4},svg);
+  });
+  AREAS.forEach(function(area){
+    var g=document.createElementNS(ns,'g');g.style.cursor='pointer';
+    var col=C[area.st],bg=CBG[area.st];
+    e('circle',{cx:area.x,cy:area.y,r:20,fill:'none',stroke:col,'stroke-width':1.5,opacity:.5,'class':'rng'},g);
+    e('circle',{cx:area.x,cy:area.y,r:14,fill:bg,stroke:col,'stroke-width':2},g);
+    e('circle',{cx:area.x,cy:area.y,r:6,fill:col},g);
+    var bk=e('g',{},g);
+    e('circle',{cx:area.x+11,cy:area.y-11,r:8,fill:'#fff',stroke:col,'stroke-width':1.5},bk);
+    var bt=e('text',{x:area.x+11,y:area.y-7,'text-anchor':'middle','font-size':8,fill:col,'font-family':'Tajawal,sans-serif','font-weight':'700'},bk);bt.textContent=area.v.length;
+    var lw=area.lbl.length*6+16;
+    e('rect',{x:area.x-lw/2,y:area.y+18,width:lw,height:18,rx:4,fill:'rgba(255,255,255,.95)',stroke:col,'stroke-width':1},g);
+    var t=e('text',{x:area.x,y:area.y+31,'text-anchor':'middle','font-size':9,fill:col,'font-family':'Tajawal,sans-serif','font-weight':'700'},g);t.textContent=area.lbl;
+    g.addEventListener('click',function(){selA(area.id);});svg.appendChild(g);
+  });
+  var cmp=e('g',{transform:'translate(30,30)'},svg);
+  e('circle',{cx:0,cy:0,r:16,fill:'#fff',stroke:'#237292','stroke-width':1.5},cmp);
+  e('text',{x:0,y:-4,'text-anchor':'middle','font-size':9,fill:'#237292','font-family':'Tajawal','font-weight':'700'},cmp).textContent='ش';
+  e('line',{x1:0,y1:-12,x2:0,y2:0,stroke:'#237292','stroke-width':2},cmp);
+  e('line',{x1:0,y1:0,x2:0,y2:12,stroke:'#ccc','stroke-width':2},cmp);
+}
+
+function selA(aid){
+  var area=AREAS.find(function(a){return a.id===aid;});
+  document.getElementById('bc2').textContent=' › '+area.lbl;
+  document.getElementById('pe').style.display='none';
+  var pc=document.getElementById('pc');pc.style.display='flex';pc.style.flexDirection='column';pc.style.height='100%';
+  document.getElementById('sl2').textContent=area.lbl;
+  loadPano(aid);buildNav(area);buildInfo(area);buildUpdates(area);
+}
+function loadPano(aid){
+  var ld=document.getElementById('pld');ld.style.display='flex';
+  if(pv2){try{pv2.destroy();}catch(ex){}pv2=null;}
+  document.getElementById('pv').innerHTML='';
+  var scenes={};
+  AREAS.forEach(function(a){
+    var hs=a.adj.map(function(adjId,i){var adj=AREAS.find(function(x){return x.id===adjId;});return{type:'scene',sceneId:adjId,pitch:-15,yaw:i*90-45,text:adj.lbl,cssClass:'pnlm-hot-spot-base pnlm-scene'};});
+    scenes[a.id]={type:'equirectangular',panorama:PANOS[a.id]||PANOS.prayer,title:a.lbl,hotSpots:hs,autoLoad:true};
+  });
+  setTimeout(function(){
+    try{
+      pv2=pannellum.viewer('pv',{default:{firstScene:aid,sceneFadeDuration:700,autoLoad:true,showControls:true,compass:false},scenes:scenes});
+      pv2.on('load',function(){ld.style.display='none';});
+      pv2.on('scenechange',function(ns){var a=AREAS.find(function(x){return x.id===ns;});if(a){document.getElementById('sl2').textContent=a.lbl;document.getElementById('bc2').textContent=' › '+a.lbl;buildNav(a);buildInfo(a);buildUpdates(a);}});
+    }catch(err){ld.style.display='none';}
+  },80);
+}
+function buildNav(area){
+  var nr=document.getElementById('nvr');nr.innerHTML='<span class="nvl">انتقل إلى:</span>';
+  area.adj.forEach(function(adjId){
+    var adj=AREAS.find(function(a){return a.id===adjId;});if(!adj)return;
+    var b=document.createElement('button');b.className='nb';b.textContent='← '+adj.lbl;
+    b.onclick=function(){if(pv2)try{pv2.loadScene(adjId);}catch(e){selA(adjId);}else selA(adjId);};
+    nr.appendChild(b);
+  });
+}
+function buildInfo(area){
+  var col=C[area.st];
+  document.getElementById('ai').innerHTML='<div class="an">'+area.lbl+'</div><div class="am"><span>📸 '+area.v.length+' زيارة ميدانية</span><span style="color:'+col+';font-weight:700">● '+CL[area.st]+'</span></div>';
+}
+function buildUpdates(area){
+  var ul=document.getElementById('ul');var col=C[area.st];
+  ul.innerHTML='<div class="utl"><span>التحديثات الميدانية</span><span style="color:var(--acc);cursor:pointer;font-size:12px;font-weight:700">＋ رفع صورة 360°</span></div>';
+  area.v.forEach(function(v){
+    var c=document.createElement('div');c.className='uc';c.style.borderRight='3px solid '+col;
+    c.innerHTML='<div class="uh"><span class="ue">👷 '+v.e+'</span><span class="ud">'+v.d+'</span></div><div class="un">'+v.n+'</div><div class="ubw"><div style="width:'+v.p+'%;height:100%;border-radius:4px;background:'+col+'"></div></div><div class="up"><span>نسبة الإنجاز</span><span style="color:'+col+';font-weight:700">'+v.p+'٪</span></div>';
+    ul.appendChild(c);
+  });
+}
+
+renderTasks();
+</script>
